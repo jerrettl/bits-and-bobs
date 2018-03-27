@@ -126,3 +126,17 @@ elif class_type == "2":
     calculate_uncategorized()
 
 print("\nYour calculated grade is: " + str(final_grade) + "%")
+
+
+# Now it's time to do something with these numbers!
+action_type = ""
+while action_type != "1" and action_type != "2":
+    action_type = input("\nWhat would you like to do with " +
+                        "your grades?" +
+                        "\n(1) Nothing." +
+                        "\n(2) Estimate the grade with a new assignment\n\n")
+
+if action_type == "1":
+    quit()
+elif action_type == "2":
+    add_assignment()
