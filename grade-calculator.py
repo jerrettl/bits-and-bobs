@@ -114,13 +114,14 @@ def calculate_uncategorized():
         final_grade = 0
 
 
-def add_assignment():
+def add_assignment_categorized():
     print("\nWhich category do you want to modify?")
     for i in range(number_of_categories):
         print("(" + str(i + 1) + ") " + str(weight[i]) + "%")
         # This will also include the name of the category once it is asked
     print()
 
+    # Make sure what the user types is a valid number before continuing
     i = True
     while i is True:
         value = input("")
@@ -129,14 +130,31 @@ def add_assignment():
                 category_to_change = int(value) - 1
                 i = False
 
-    print(str(category_to_change))
+    # TODO: Handle bad values
+    assignment_points = int(input("How many points is the new " +
+                                    "assignment worth? "))
 
-    # Ask for the points in the assignment
-    # for i in range(assignment_points):
-    # re-run the calculation formula (see lines 75-80)
-    # with i out of assignment_points added to the
-    # acheived_points and total_points arrays
-    # then print the resulting percentage for the class
+    # For every possible score out of the total, calculate the resulting total
+    # average in the class
+    for i in range(assignment_points + 1):
+        # Reset the total percentage every time we finish calculating
+        total = 0
+        for j in range(number_of_categories):
+            # When finding the weighted percents from all categories again, if
+            # the category we get to is the one we need to change, add those
+            # changes
+            if category_to_change is j:
+                weighted_category = float((points_achieved[j] + i) /
+                                        (points_total[j] + assignment_points) *
+                                        weight[j])
+            else:
+                weighted_category = float(points_achieved[j] / points_total[j] *
+                                        weight[j])
+            total = total + weighted_category
+        # Show the score out of the total and then show the percent in the
+        # class
+        print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
+
 
 
 # first ask which function we're dealing with
@@ -164,4 +182,8 @@ while action_type != "1" and action_type != "2":
 if action_type == "1":
     quit()
 elif action_type == "2":
-    add_assignment()
+    if class_type == "1":
+        add_assignment_categorized()
+    elif class_type == "2":
+        # add_assignment_uncategorized()
+        quit()
