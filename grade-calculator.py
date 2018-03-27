@@ -114,6 +114,31 @@ def calculate_uncategorized():
         final_grade = 0
 
 
+def add_assignment():
+    print("\nWhich category do you want to modify?")
+    for i in range(number_of_categories):
+        print("(" + str(i + 1) + ") " + str(weight[i]) + "%")
+        # This will also include the name of the category once it is asked
+    print()
+
+    i = True
+    while i is True:
+        value = input("")
+        if isint(value):
+            if int(value) >= 1 and int(value) <= number_of_categories:
+                category_to_change = int(value) - 1
+                i = False
+
+    print(str(category_to_change))
+
+    # Ask for the points in the assignment
+    # for i in range(assignment_points):
+    # re-run the calculation formula (see lines 75-80)
+    # with i out of assignment_points added to the
+    # acheived_points and total_points arrays
+    # then print the resulting percentage for the class
+
+
 # first ask which function we're dealing with
 class_type = ""
 while class_type != "1" and class_type != "2":
