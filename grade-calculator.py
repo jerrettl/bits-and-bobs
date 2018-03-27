@@ -35,11 +35,15 @@ def append_to_array(array_name, x, prompt):
 def calculate_categorized():
     # Initialize variables
     total = 0
+    global number_of_categories
+    global final_grade
+    global weight
+    global points_achieved
+    global points_total
     number_of_categories = ""
     weight = []
     points_achieved = []
     points_total = []
-    global final_grade
 
     # we need to ask how many categories we're about to collect data for
     while not isint(number_of_categories):
