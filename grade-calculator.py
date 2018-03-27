@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+
 def isint(x):
     try:
         int(x)
