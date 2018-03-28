@@ -55,6 +55,7 @@ def calculate_categorized():
     # append_to_array() takes the name of the array, the index, and what
     # prompt to show while waiting to get a proper value
     for i in range(number_of_categories):
+        # TODO: Ask for the name of the category
         append_to_array(weight, i, "[" + str(i + 1) + "/" +
                         str(number_of_categories) + "] % weight of category #"
                         + str(i + 1) + "? ")
@@ -177,6 +178,7 @@ def add_assignment_uncategorized():
 
 
 # first ask which function we're dealing with
+# TODO: Make the whole thing more visually appealing
 class_type = ""
 while class_type != "1" and class_type != "2":
     class_type = input("\nSelect the type of class:" + "\n(1) Categorized" +
@@ -195,13 +197,13 @@ action_type = ""
 while action_type != "1" and action_type != "2":
     action_type = input("\nWhat would you like to do with " +
                         "your grades?" +
-                        "\n(1) Nothing." +
-                        "\n(2) Estimate the grade with a new assignment\n\n")
+                        "\n(1) Estimate the grade with a new assignment." +
+                        "\n(2) Nothing.\n\n")
 
 if action_type == "1":
-    quit()
-elif action_type == "2":
     if class_type == "1":
         add_assignment_categorized()
     elif class_type == "2":
         add_assignment_uncategorized()
+elif action_type == "2":
+    quit()
