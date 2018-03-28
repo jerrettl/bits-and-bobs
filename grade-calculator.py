@@ -25,11 +25,16 @@ def isindex(name, index):
         return False
 
 
-def append_to_array(array_name, x, prompt):
+def append_to_array(array_name, x, prompt, array_type):
     while not isindex(array_name, x):
         input_value = input(prompt)
-        if isfloat(input_value):
-            array_name.append(float(input_value))
+        if array_type is "float":
+            if isfloat(input_value):
+                array_name.append(float(input_value))
+        elif array_type is "string":
+            array_name.append(input_value)
+
+
 def get_class_type():
     class_type = ""
     while class_type != "1" and class_type != "2":
@@ -53,10 +58,12 @@ def calculate_categorized():
     total = 0
     global number_of_categories
     global final_grade
+    global name
     global weight
     global points_achieved
     global points_total
     number_of_categories = ""
+    name = []
     weight = []
     points_achieved = []
     points_total = []
@@ -71,18 +78,21 @@ def calculate_categorized():
     # append_to_array() takes the name of the array, the index, and what
     # prompt to show while waiting to get a proper value
     for i in range(number_of_categories):
-        # TODO: Ask for the name of the category
+        append_to_array(name, i, "[" + str(i + 1) + "/" +
+                        str(number_of_categories) + "] Name of category #" +
+                        str(i + 1) + "? ", "string")
+
         append_to_array(weight, i, "[" + str(i + 1) + "/" +
                         str(number_of_categories) + "] % weight of category #"
-                        + str(i + 1) + "? ")
+                        + str(i + 1) + "? ", "float")
 
         append_to_array(points_achieved, i, "[" + str(i + 1) + "/" +
                         str(number_of_categories) + "] Points achieved in " +
-                        "category #" + str(i + 1) + "? ")
+                        "category #" + str(i + 1) + "? ", "float")
 
         append_to_array(points_total, i, "[" + str(i + 1) + "/" +
                         str(number_of_categories) + "] Points total in " +
-                        "category #" + str(i + 1) + "? ")
+                        "category #" + str(i + 1) + "? ", "float")
 
         # Space after every category
         print()
@@ -136,7 +146,7 @@ def calculate_uncategorized():
 def add_assignment_categorized():
     print("\nWhich category do you want to modify?")
     for i in range(number_of_categories):
-        print("(" + str(i + 1) + ") " + str(weight[i]) + "%")
+        print("(" + str(i + 1) + ") " + name[i] + " - " + str(weight[i]) + "%")
         # This will also include the name of the category once it is asked
     print()
 
