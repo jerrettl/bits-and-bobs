@@ -151,7 +151,7 @@ def add_assignment_categorized():
     print("\nWhich category do you want to modify?")
     for i in range(number_of_categories):
         print("(" + str(i + 1) + ") " + name[i] + " - " + str(weight[i]) + "%")
-        # This will also include the name of the category once it is asked
+
     print()
 
     # Make sure what the user types is a valid number before continuing
