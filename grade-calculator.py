@@ -100,8 +100,12 @@ def calculate_categorized():
     # Calculate the total grade by taking the sum of the percents from each
     # category
     for i in range(number_of_categories):
-        weighted_category = float(points_achieved[i] / points_total[i] *
-                                  weight[i])
+        try:
+            weighted_category = float(points_achieved[i] / points_total[i] *
+                                      weight[i])
+        except ZeroDivisionError:
+            weighted_category = float(0)
+
         total = total + weighted_category
 
     final_grade = total
@@ -180,8 +184,11 @@ def add_assignment_categorized():
                                           (points_total[j] + assignment_points)
                                           * weight[j])
             else:
-                weighted_category = float(points_achieved[j] / points_total[j]
-                                          * weight[j])
+                try:
+                    weighted_category = float(points_achieved[j] /
+                                              points_total[j] * weight[j])
+                except ZeroDivisionError:
+                    weighted_category = 0
             total = total + weighted_category
         # Show the score out of the total and then show the percent in the
         # class
