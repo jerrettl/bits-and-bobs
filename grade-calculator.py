@@ -30,6 +30,22 @@ def append_to_array(array_name, x, prompt):
         input_value = input(prompt)
         if isfloat(input_value):
             array_name.append(float(input_value))
+def get_class_type():
+    class_type = ""
+    while class_type != "1" and class_type != "2":
+        class_type = input("\nSelect the type of class:" + "\n(1) Categorized"
+                           + "\n(2) Uncategorized\n\n")
+    return class_type
+
+
+def get_action_type():
+    action_type = ""
+    while action_type != "1" and action_type != "2":
+        action_type = input("What would you like to do with " +
+                            "your grades?" +
+                            "\n(1) Estimate the grade with a new assignment." +
+                            "\n(2) Nothing.\n\n")
+    return action_type
 
 
 def calculate_categorized():
@@ -177,33 +193,29 @@ def add_assignment_uncategorized():
         print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
 
 
-# first ask which function we're dealing with
-# TODO: Make the whole thing more visually appealing
-class_type = ""
-while class_type != "1" and class_type != "2":
-    class_type = input("\nSelect the type of class:" + "\n(1) Categorized" +
-                       "\n(2) Uncategorized\n\n")
 
-if class_type == "1":
-    calculate_categorized()
-elif class_type == "2":
-    calculate_uncategorized()
-
-print("\nYour calculated grade is: " + str(final_grade) + "%")
-
-
-# Now it's time to do something with these numbers!
-action_type = ""
-while action_type != "1" and action_type != "2":
-    action_type = input("\nWhat would you like to do with " +
-                        "your grades?" +
-                        "\n(1) Estimate the grade with a new assignment." +
-                        "\n(2) Nothing.\n\n")
-
-if action_type == "1":
+def main():
+    print("=" * 40 + "\n")
+    print("     G R A D E   C A L C U L A T O R    ")
+    print("\n" + "=" * 40 + "\n")
+    class_type = get_class_type()
     if class_type == "1":
-        add_assignment_categorized()
+        calculate_categorized()
     elif class_type == "2":
-        add_assignment_uncategorized()
-elif action_type == "2":
-    quit()
+        calculate_uncategorized()
+
+    print("=" * 40 + "\n")
+    print("   Your calculated grade is: " + str(final_grade) + "%")
+    print("\n" + "=" * 40 + "\n")
+
+    action_type = get_action_type()
+    if action_type == "1":
+        if class_type == "1":
+            add_assignment_categorized()
+        elif class_type == "2":
+            add_assignment_uncategorized()
+    elif action_type == "2":
+        quit()
+
+
+main()
