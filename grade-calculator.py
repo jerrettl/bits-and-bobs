@@ -194,6 +194,10 @@ def add_assignment_categorized():
         # class
         print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
 
+    if assignment_points > 20:
+        print("\nWarning! Your screen may be filled too much to see all the " +
+              "possible scores! You may need to scroll back to see them all.")
+
 
 def add_assignment_uncategorized():
     # TODO: Make this into a defined function
@@ -209,6 +213,9 @@ def add_assignment_uncategorized():
                                          assignment_points) * 100
         print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
 
+    if assignment_points > 20:
+        print("\nWarning! Your screen may be filled too much to see all the " +
+              "possible scores! You may need to scroll back to see them all.")
 
 
 def main():
