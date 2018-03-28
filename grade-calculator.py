@@ -82,9 +82,11 @@ def calculate_categorized():
 
 def calculate_uncategorized():
     # Initialize variables
+    global final_grade
+    global points_achieved
+    global points_total
     points_achieved = 0
     points_total = 0
-    global final_grade
 
     # we only need points and total
     print("Enter all the achieved points from each assignment separated with" +
@@ -132,7 +134,7 @@ def add_assignment_categorized():
 
     # TODO: Handle bad values
     assignment_points = int(input("How many points is the new " +
-                                    "assignment worth? "))
+                                  "assignment worth? "))
 
     # For every possible score out of the total, calculate the resulting total
     # average in the class
@@ -145,16 +147,25 @@ def add_assignment_categorized():
             # changes
             if category_to_change is j:
                 weighted_category = float((points_achieved[j] + i) /
-                                        (points_total[j] + assignment_points) *
-                                        weight[j])
+                                          (points_total[j] + assignment_points)
+                                          * weight[j])
             else:
-                weighted_category = float(points_achieved[j] / points_total[j] *
-                                        weight[j])
+                weighted_category = float(points_achieved[j] / points_total[j]
+                                          * weight[j])
             total = total + weighted_category
         # Show the score out of the total and then show the percent in the
         # class
         print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
 
+
+def add_assignment_uncategorized():
+    assignment_points = int(input("\nHow many points is the new assignment" +
+                                  " worth? "))
+
+    for i in range(assignment_points + 1):
+        total = (points_achieved + i) / (points_total +
+                                         assignment_points) * 100
+        print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
 
 
 # first ask which function we're dealing with
@@ -185,5 +196,4 @@ elif action_type == "2":
     if class_type == "1":
         add_assignment_categorized()
     elif class_type == "2":
-        # add_assignment_uncategorized()
-        quit()
+        add_assignment_uncategorized()
