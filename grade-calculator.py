@@ -57,7 +57,6 @@ def calculate_categorized():
     # Initialize variables
     total = 0
     global number_of_categories
-    global final_grade
     global name
     global weight
     global points_achieved
@@ -104,11 +103,11 @@ def calculate_categorized():
             weighted_category = float(points_achieved[i] / points_total[i] *
                                       weight[i])
         except ZeroDivisionError:
-            weighted_category = float(0)
+            weighted_category = 0
 
-        total = total + weighted_category
+        total += weighted_category
 
-    final_grade = total
+    return_grade(total)
 
 
 def calculate_uncategorized():
@@ -146,6 +145,8 @@ def calculate_uncategorized():
     except ZeroDivisionError:
         final_grade = 0
 
+    return_grade(final_grade)
+
 
 def add_assignment_categorized():
     print("\nWhich category do you want to modify?")
@@ -165,7 +166,7 @@ def add_assignment_categorized():
 
     x = True
     while x is True:
-        value = input("How many points is the new assignment worth? ")
+        value = input("\nHow many points is the new assignment worth? ")
         if isint(value):
             assignment_points = int(value)
             x = False
@@ -218,20 +219,19 @@ def add_assignment_uncategorized():
               "possible scores! You may need to scroll back to see them all.")
 
 
-def main():
+def launch():
     print("=" * 40 + "\n")
-    print("     G R A D E   C A L C U L A T O R    ")
+    print("     G R A D E   C A L C U L A T O R")
     print("\n" + "=" * 40 + "\n")
+    global class_type
     class_type = get_class_type()
     if class_type == "1":
         calculate_categorized()
     elif class_type == "2":
         calculate_uncategorized()
 
-    print("=" * 40 + "\n")
-    print("   Your calculated grade is: " + str(final_grade) + "%")
-    print("\n" + "=" * 40 + "\n")
 
+def action_prompt():
     action_type = get_action_type()
     if action_type == "1":
         if class_type == "1":
@@ -242,4 +242,11 @@ def main():
         quit()
 
 
-main()
+def return_grade(final_grade):
+    print("=" * 40 + "\n")
+    print("   Your calculated grade is: " + str(final_grade) + "%")
+    print("\n" + "=" * 40 + "\n")
+    action_prompt()
+
+
+launch()
