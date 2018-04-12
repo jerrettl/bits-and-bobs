@@ -199,6 +199,9 @@ def add_assignment_categorized():
         print("\nWarning! Your screen may be filled too much to see all the " +
               "possible scores! You may need to scroll back to see them all.")
 
+    print()
+    action_prompt()
+
 
 def add_assignment_uncategorized():
     # TODO: Make this into a defined function
@@ -217,6 +220,9 @@ def add_assignment_uncategorized():
     if assignment_points > 20:
         print("\nWarning! Your screen may be filled too much to see all the " +
               "possible scores! You may need to scroll back to see them all.")
+
+    print()
+    action_prompt()
 
 
 def launch():
