@@ -53,6 +53,16 @@ def get_action_type():
     return action_type
 
 
+def grab_new_assignment_data():
+    x = True
+    while x is True:
+        value = input("How many points is the new assignment worth? ")
+        if isint(value):
+            assignment_points = int(value)
+            x = False
+    return assignment_points
+
+
 def calculate_categorized():
     # Initialize variables
     total = 0
@@ -164,12 +174,7 @@ def add_assignment_categorized():
                 category_to_change = int(value) - 1
                 i = False
 
-    x = True
-    while x is True:
-        value = input("\nHow many points is the new assignment worth? ")
-        if isint(value):
-            assignment_points = int(value)
-            x = False
+    assignment_points = grab_new_assignment_data()
 
     # For every possible score out of the total, calculate the resulting total
     # average in the class
@@ -204,13 +209,7 @@ def add_assignment_categorized():
 
 
 def add_assignment_uncategorized():
-    # TODO: Make this into a defined function
-    x = True
-    while x is True:
-        value = input("How many points is the new assignment worth? ")
-        if isint(value):
-            assignment_points = int(value)
-            x = False
+    assignment_points = grab_new_assignment_data()
 
     for i in range(assignment_points + 1):
         total = (points_achieved + i) / (points_total +
