@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 
+from html_parser import calculate_html_uncategorized
+
+
 def isint(x):
     try:
         int(x)
@@ -37,9 +40,12 @@ def append_to_array(array_name, x, prompt, array_type):
 
 def get_class_type():
     class_type = ""
-    while class_type != "1" and class_type != "2":
+    while(class_type != "1" and class_type != "2"
+          and class_type != "3" and class_type != "4"):
         class_type = input("\nSelect the type of class:" + "\n(1) Categorized"
-                           + "\n(2) Uncategorized\n\n")
+                           + "\n(2) Uncategorized"
+                           + "\n(3) Import HTML, Categorized"
+                           + "\n(4) Import HTML, Uncategorized\n\n")
     return class_type
 
 
@@ -234,6 +240,15 @@ def launch():
         calculate_categorized()
     elif class_type == "2":
         calculate_uncategorized()
+    elif class_type == "4":
+        # Initialize variables
+        global final_grade
+        global points_achieved
+        global points_total
+
+        points_achieved, points_total,\
+            final_grade = calculate_html_uncategorized()
+        return_grade(final_grade)
 
 
 def action_prompt():
@@ -241,7 +256,7 @@ def action_prompt():
     if action_type == "1":
         if class_type == "1":
             add_assignment_categorized()
-        elif class_type == "2":
+        elif class_type == "2" or class_type == "4":
             add_assignment_uncategorized()
     elif action_type == "2":
         quit()
