@@ -6,15 +6,8 @@ from html_parser import calculate_html_uncategorized
 
 
 
-def append_to_array(array_name, x, prompt, array_type):
-    while not isindex(array_name, x):
-        input_value = input(prompt)
-        if array_type is "float":
-            if isfloat(input_value):
-                array_name.append(float(input_value))
-        elif array_type is "string":
-            array_name.append(input_value)
 from basic_checks import isint, isfloat
+from append_to_array import append_to_array
 
 
 def get_class_type():
@@ -69,8 +62,6 @@ def calculate_categorized():
             number_of_categories = int(input_value)
 
     # Time to ask about the category's weight, and points out of points total
-    # append_to_array() takes the name of the array, the index, and what
-    # prompt to show while waiting to get a proper value
     for i in range(number_of_categories):
         append_to_array(name, i, "[" + str(i + 1) + "/" +
                         str(number_of_categories) + "] Name of category #" +
