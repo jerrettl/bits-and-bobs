@@ -4,28 +4,6 @@
 from html_parser import calculate_html_uncategorized
 
 
-def isint(x):
-    try:
-        int(x)
-        return True
-    except ValueError:
-        return False
-
-
-def isfloat(x):
-    try:
-        float(x)
-        return True
-    except ValueError:
-        return False
-
-
-def isindex(name, index):
-    try:
-        name[index]
-        return True
-    except IndexError:
-        return False
 
 
 def append_to_array(array_name, x, prompt, array_type):
@@ -36,6 +14,7 @@ def append_to_array(array_name, x, prompt, array_type):
                 array_name.append(float(input_value))
         elif array_type is "string":
             array_name.append(input_value)
+from basic_checks import isint, isfloat
 
 
 def get_class_type():
