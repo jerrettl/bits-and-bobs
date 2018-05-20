@@ -49,3 +49,53 @@ def calculate_html_uncategorized():
         final_grade = 0
 
     return points_achieved, points_total, final_grade
+
+
+def calculate_html_categorized():
+    # Initialize variables
+    name = []
+    weight = []
+    points_achieved = []
+    points_total = []
+
+    # Prompt to import file and wait for a proper file name
+    while True:
+        file_name = input("What is the name of the file you would"
+                          + " like to import?\n")
+        try:
+            f = open(file_name, "r")
+            break
+        except FileNotFoundError:
+            continue
+
+    html = f.read()
+    soup = BeautifulSoup(html, 'html.parser')
+
+    categories = soup.find('table', id="Categories")
+    category_list = categories.find_all('tr')
+
+    final_grade = 0
+    for i in category_list:
+        name_temp = i.find('td', class_='description').contents[0].strip()
+        weight_temp = i.find('span', class_='percent').contents[0]\
+            .split()[0].split('%')[0]
+        points_achieved_temp = i.find('span', class_='points').string
+        points_total_temp = i.find('span', class_='text-muted').string
+
+        name.append(name_temp)
+        weight.append(float(weight_temp))
+        points_achieved.append(float(points_achieved_temp))
+        points_total.append(float(points_total_temp))
+
+    number_of_categories = len(name)
+    for i in range(number_of_categories):
+        try:
+            weighted_category = float(points_achieved[i] / points_total[i] *
+                                      weight[i])
+        except ZeroDivisionError:
+            weighted_category = 0
+
+        final_grade += weighted_category
+
+    return number_of_categories, name, weight, points_achieved,\
+        points_total, final_grade

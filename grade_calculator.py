@@ -1,12 +1,9 @@
 #!/usr/bin/python3
 
 
-from html_parser import calculate_html_uncategorized
-
-
-
-
 from basic_checks import isint, isfloat
+from html_parser import calculate_html_uncategorized,\
+    calculate_html_categorized
 from append_to_array import append_to_array
 
 
@@ -205,17 +202,23 @@ def launch():
     print("     G R A D E   C A L C U L A T O R")
     print("\n" + "=" * 40 + "\n")
     global class_type
+    global final_grade
+    global points_achieved
+    global points_total
     class_type = get_class_type()
     if class_type == "1":
         calculate_categorized()
     elif class_type == "2":
         calculate_uncategorized()
-    elif class_type == "4":
-        # Initialize variables
-        global final_grade
-        global points_achieved
-        global points_total
+    elif class_type == "3":
+        global number_of_categories
+        global name
+        global weight
 
+        number_of_categories, name, weight, points_achieved, points_total,\
+            final_grade = calculate_html_categorized()
+        return_grade(final_grade)
+    elif class_type == "4":
         points_achieved, points_total,\
             final_grade = calculate_html_uncategorized()
         return_grade(final_grade)
@@ -224,7 +227,7 @@ def launch():
 def action_prompt():
     action_type = get_action_type()
     if action_type == "1":
-        if class_type == "1":
+        if class_type == "1" or class_type == "3":
             add_assignment_categorized()
         elif class_type == "2" or class_type == "4":
             add_assignment_uncategorized()
