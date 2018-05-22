@@ -3,11 +3,7 @@
 from bs4 import BeautifulSoup
 
 
-def calculate_html_uncategorized():
-    # Initialize variables
-    points_achieved = 0
-    points_total = 0
-
+def find_class_type():
     # Prompt to import file and wait for a proper file name
     while True:
         file_name = input("What is the name of the file you would"
@@ -18,6 +14,21 @@ def calculate_html_uncategorized():
         except FileNotFoundError:
             continue
 
+    html = f.read()
+    soup = BeautifulSoup(html, 'html.parser')
+
+    if soup.find('table', id="Categories"):
+        return "3", file_name  # Categorized
+    else:
+        return "4", file_name  # Uncategorized
+
+
+def calculate_html_uncategorized(file_name):
+    # Initialize variables
+    points_achieved = 0
+    points_total = 0
+
+    f = open(file_name, "r")
     html = f.read()
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -51,7 +62,7 @@ def calculate_html_uncategorized():
     return points_achieved, points_total, final_grade
 
 
-def calculate_html_categorized():
+def calculate_html_categorized(file_name):
     # Initialize variables
     name = []
     weight = []
@@ -59,15 +70,7 @@ def calculate_html_categorized():
     points_total = []
 
     # Prompt to import file and wait for a proper file name
-    while True:
-        file_name = input("What is the name of the file you would"
-                          + " like to import?\n")
-        try:
-            f = open(file_name, "r")
-            break
-        except FileNotFoundError:
-            continue
-
+    f = open(file_name, "r")
     html = f.read()
     soup = BeautifulSoup(html, 'html.parser')
 

@@ -3,18 +3,18 @@
 
 from basic_checks import isint, isfloat
 from html_parser import calculate_html_uncategorized,\
-    calculate_html_categorized
+    calculate_html_categorized, find_class_type
 from append_to_array import append_to_array
 
 
 def get_class_type():
     class_type = ""
-    while(class_type != "1" and class_type != "2"
-          and class_type != "3" and class_type != "4"):
-        class_type = input("\nSelect the type of class:" + "\n(1) Categorized"
-                           + "\n(2) Uncategorized"
-                           + "\n(3) Import HTML, Categorized"
-                           + "\n(4) Import HTML, Uncategorized\n\n")
+    while(class_type != "0" and class_type != "1"
+          and class_type != "2"):
+        class_type = input("\nSelect the type of class:"
+                           + "\n(0) Import HTML"
+                           + "\n(1) Categorized"
+                           + "\n(2) Uncategorized\n\n")
     return class_type
 
 
@@ -206,6 +206,8 @@ def launch():
     global points_achieved
     global points_total
     class_type = get_class_type()
+    if class_type == "0":
+        class_type, file_name = find_class_type()
     if class_type == "1":
         calculate_categorized()
     elif class_type == "2":
@@ -216,11 +218,11 @@ def launch():
         global weight
 
         number_of_categories, name, weight, points_achieved, points_total,\
-            final_grade = calculate_html_categorized()
+            final_grade = calculate_html_categorized(file_name)
         return_grade(final_grade)
     elif class_type == "4":
         points_achieved, points_total,\
-            final_grade = calculate_html_uncategorized()
+            final_grade = calculate_html_uncategorized(file_name)
         return_grade(final_grade)
 
 
