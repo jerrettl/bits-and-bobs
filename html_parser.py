@@ -3,6 +3,10 @@
 from bs4 import BeautifulSoup
 
 
+""" find_class_type() determines whether an input file is categorized
+or not based on the existance of a category table """
+
+
 def find_class_type():
     # Prompt to import file and wait for a proper file name
     while True:
@@ -17,12 +21,14 @@ def find_class_type():
     html = f.read()
     soup = BeautifulSoup(html, 'html.parser')
 
+    # If a table is found call it categorized
     if soup.find('table', id="Categories"):
         return "3", file_name  # Categorized
     else:
         return "4", file_name  # Uncategorized
 
 
+# Does exactly the same as calculate_uncategoried()
 def calculate_html_uncategorized(file_name):
     # Initialize variables
     points_achieved = 0
@@ -51,6 +57,7 @@ def calculate_html_uncategorized(file_name):
             points_achieved_temp = 0
             points_total_temp = 0
 
+        # Add the assignment to the stack of total assignments
         points_achieved += float(points_achieved_temp)
         points_total += float(points_total_temp)
 
@@ -62,6 +69,7 @@ def calculate_html_uncategorized(file_name):
     return points_achieved, points_total, final_grade
 
 
+# Same functionality as calculate_categorized()
 def calculate_html_categorized(file_name):
     # Initialize variables
     name = []
@@ -77,6 +85,7 @@ def calculate_html_categorized(file_name):
     categories = soup.find('table', id="Categories")
     category_list = categories.find_all('tr')
 
+    # Scour the html for everything you could possibly ever want
     final_grade = 0
     for i in category_list:
         name_temp = i.find('td', class_='description').contents[0].strip()
@@ -85,6 +94,8 @@ def calculate_html_categorized(file_name):
         points_achieved_temp = i.find('span', class_='points').string
         points_total_temp = i.find('span', class_='text-muted').string
 
+        # Take the extracted information and place them in their
+        # corresponding arrays
         name.append(name_temp)
         weight.append(float(weight_temp))
         points_achieved.append(float(points_achieved_temp))
@@ -100,5 +111,8 @@ def calculate_html_categorized(file_name):
 
         final_grade += weighted_category
 
+    # Return literally everything so the main calculator script can
+    # manipulate these values however it wants, whether they are completely
+    # deconstructed or used exactly as-is.
     return number_of_categories, name, weight, points_achieved,\
         points_total, final_grade

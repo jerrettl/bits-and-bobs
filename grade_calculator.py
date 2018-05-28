@@ -1,6 +1,13 @@
 #!/usr/bin/python3
 
 
+"""
+BEHOLD. THE BEHEMOTH.
+WENT FROM REALLY SIMPLE TO REALLY DISGUSTING AND MESSY WITHIN
+SECONDS. MAY YOU FIND SOMETHING THAT STILL MAKES SENSE.
+"""
+
+
 from basic_checks import isint, isfloat
 from html_parser import calculate_html_uncategorized,\
     calculate_html_categorized, find_class_type
