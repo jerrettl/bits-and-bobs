@@ -181,9 +181,6 @@ def add_assignment_categorized():
         print("\nWarning! Your screen may be filled too much to see all the " +
               "possible scores! You may need to scroll back to see them all.")
 
-    print()
-    action_prompt()
-
 
 def add_assignment_uncategorized():
     assignment_points = grab_new_assignment_data()
@@ -196,9 +193,6 @@ def add_assignment_uncategorized():
     if assignment_points > 20:
         print("\nWarning! Your screen may be filled too much to see all the " +
               "possible scores! You may need to scroll back to see them all.")
-
-    print()
-    action_prompt()
 
 
 def launch():
@@ -240,15 +234,15 @@ def action_prompt():
         elif class_type == "2" or class_type == "4":
             add_assignment_uncategorized()
     elif action_type == "2":
-        if class_type == "1":
+        if class_type == "1" or class_type == "3":
             estimate_amount_of_points(class_type,
                                       [number_of_categories, name, weight,
                                        points_achieved, points_total])
-        elif class_type == "2":
+        elif class_type == "2" or class_type == "4":
             estimate_amount_of_points(class_type,
                                       [points_achieved, points_total])
-        elif class_type == "3" or class_type == "4":
-            estimate_amount_of_points(class_type, "stuff")
+    print()
+    action_prompt()
 
 
 def return_grade(final_grade):
