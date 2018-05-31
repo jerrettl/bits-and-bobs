@@ -5,6 +5,7 @@ from basic_checks import isint, isfloat
 from html_parser import calculate_html_uncategorized,\
     calculate_html_categorized, find_class_type
 from append_to_array import append_to_array
+from estimate_amount_of_points import estimate_amount_of_points
 
 
 def get_class_type():
@@ -20,11 +21,14 @@ def get_class_type():
 
 def get_action_type():
     action_type = ""
-    while action_type != "1" and action_type != "2":
+    while action_type != "0" and action_type != "1" and action_type != "2":
         action_type = input("What would you like to do with " +
                             "your grades?" +
-                            "\n(1) Estimate the grade with a new assignment." +
-                            "\n(2) Nothing.\n\n")
+                            "\n(0) Nothing." +
+                            "\n(1) Estimate the grade with " +
+                            "a new assignment." +
+                            "\n(2) Estimate how many points are needed for" +
+                            " a certain grade.\n\n")
     return action_type
 
 
@@ -228,13 +232,23 @@ def launch():
 
 def action_prompt():
     action_type = get_action_type()
-    if action_type == "1":
+    if action_type == "0":
+        quit()
+    elif action_type == "1":
         if class_type == "1" or class_type == "3":
             add_assignment_categorized()
         elif class_type == "2" or class_type == "4":
             add_assignment_uncategorized()
     elif action_type == "2":
-        quit()
+        if class_type == "1":
+            estimate_amount_of_points(class_type,
+                                      [number_of_categories, name, weight,
+                                       points_achieved, points_total])
+        elif class_type == "2":
+            estimate_amount_of_points(class_type,
+                                      [points_achieved, points_total])
+        elif class_type == "3" or class_type == "4":
+            estimate_amount_of_points(class_type, "stuff")
 
 
 def return_grade(final_grade):
