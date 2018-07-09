@@ -16,8 +16,7 @@ from append_to_array import append_to_array
 
 def get_class_type():
     class_type = ""
-    while(class_type != "0" and class_type != "1"
-          and class_type != "2"):
+    while class_type not in ("0", "1", "2"):
         class_type = input("\nSelect the type of class:"
                            + "\n(0) Import HTML"
                            + "\n(1) Categorized"
@@ -27,7 +26,7 @@ def get_class_type():
 
 def get_action_type():
     action_type = ""
-    while action_type != "1" and action_type != "2":
+    while action_type not in ("1", "2"):
         action_type = input("What would you like to do with " +
                             "your grades?" +
                             "\n(1) Estimate the grade with a new assignment." +
