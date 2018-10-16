@@ -1,253 +1,77 @@
 #!/usr/bin/python3
 
 
-"""
-BEHOLD. THE BEHEMOTH.
-WENT FROM REALLY SIMPLE TO REALLY DISGUSTING AND MESSY WITHIN
-SECONDS. MAY YOU FIND SOMETHING THAT STILL MAKES SENSE.
-"""
+import data_extract, data_manipulate, html_import
 
 
-from basic_checks import isint, isfloat
-from html_parser import calculate_html_uncategorized,\
-    calculate_html_categorized, find_class_type
-from append_to_array import append_to_array
+def class_average_output(data):
+    print("=" * 40 + "\n")
+    print(f"   Your calculated grade is: {data.class_average}%\n")
+    print("=" * 40 + "\n")
 
 
-def get_class_type():
+def process_data(data):
+    # Ask the user what to do with the data
+    action_type = ""
+    while action_type not in ("0", "1", "2", "3"):
+        action_type = input("\nWhat would you like to do with your data?"
+                            "\n(0) Edit data"
+                            "\n(1) Add hypothetical assignment"
+                            "\n(2) Estimate the points needed for a desired grade"
+                            "\n(3) Nothing, exit\n\n")
+    action_type = int(action_type)
+
+    # Define what the different options will do
+    data_manipulation_methods = {
+        0: data_extract.edit,
+        1: data_manipulate.new_assignment,
+        2: data_manipulate.points_to_threshold,
+        3: exit
+    }
+
+    # Perform the user's action
+    data_manipulation_methods.get(action_type)(data)
+
+    # If the data was changed, redisplay the class average
+    if action_type == 0:
+        class_average_output(data)
+
+    # Ask to do something else with the data
+    process_data(data)
+
+
+def main():
+    print("=" * 40 + "\n")
+    print("    G R A D E   C A L C U L A T O R\n")
+    print("=" * 40 + "\n")
+
+    # Ask the user what kind of data should be asked for
     class_type = ""
     while class_type not in ("0", "1", "2"):
         class_type = input("\nSelect the type of class:"
                            + "\n(0) Import HTML"
-                           + "\n(1) Categorized"
-                           + "\n(2) Uncategorized\n\n")
-    return class_type
+                           + "\n(1) Uncategorized"
+                           + "\n(2) Categorized\n\n")
+    class_type = int(class_type)
+
+    # The type of grade structure determines the method of data extraction
+    data_extraction_methods = {
+        0: html_import.main,
+        1: data_extract.uncategorized,
+        2: data_extract.categorized
+    }
+
+    # Get all the data and save it (the parameter 1 says this will be a new class)
+    data = data_extraction_methods.get(class_type)(1)
+
+    if data is None:
+        exit()
+
+    # Display the class average
+    class_average_output(data)
+
+    # Do something with the data
+    process_data(data)
 
 
-def get_action_type():
-    action_type = ""
-    while action_type not in ("1", "2"):
-        action_type = input("What would you like to do with " +
-                            "your grades?" +
-                            "\n(1) Estimate the grade with a new assignment." +
-                            "\n(2) Nothing.\n\n")
-    return action_type
-
-
-def grab_new_assignment_data():
-    x = True
-    while x is True:
-        value = input("How many points is the new assignment worth? ")
-        if isint(value):
-            assignment_points = int(value)
-            x = False
-    return assignment_points
-
-
-def calculate_categorized():
-    # Initialize variables
-    total = 0
-    global number_of_categories
-    global name
-    global weight
-    global points_achieved
-    global points_total
-    number_of_categories = ""
-    name = []
-    weight = []
-    points_achieved = []
-    points_total = []
-
-    # we need to ask how many categories we're about to collect data for
-    while not isint(number_of_categories):
-        input_value = input("What is the number of grade categories? ")
-        if isint(input_value):
-            number_of_categories = int(input_value)
-
-    # Time to ask about the category's weight, and points out of points total
-    for i in range(number_of_categories):
-        append_to_array(name, i, "[" + str(i + 1) + "/" +
-                        str(number_of_categories) + "] Name of category #" +
-                        str(i + 1) + "? ", "string")
-
-        append_to_array(weight, i, "[" + str(i + 1) + "/" +
-                        str(number_of_categories) + "] % weight of category #"
-                        + str(i + 1) + "? ", "float")
-
-        append_to_array(points_achieved, i, "[" + str(i + 1) + "/" +
-                        str(number_of_categories) + "] Points achieved in " +
-                        "category #" + str(i + 1) + "? ", "float")
-
-        append_to_array(points_total, i, "[" + str(i + 1) + "/" +
-                        str(number_of_categories) + "] Points total in " +
-                        "category #" + str(i + 1) + "? ", "float")
-
-        # Space after every category
-        print()
-
-    # Calculate the total grade by taking the sum of the percents from each
-    # category
-    for i in range(number_of_categories):
-        try:
-            weighted_category = float(points_achieved[i] / points_total[i] *
-                                      weight[i])
-        except ZeroDivisionError:
-            weighted_category = 0
-
-        total += weighted_category
-
-    return_grade(total)
-
-
-def calculate_uncategorized():
-    # Initialize variables
-    global final_grade
-    global points_achieved
-    global points_total
-    points_achieved = 0
-    points_total = 0
-
-    # we only need points and total
-    print("Enter all the achieved points from each assignment separated with" +
-          " enter: \n" +
-          "Type anything that isn't a number when you are done.\n")
-    x = True
-    while x is True:
-        value = input("")
-        if isfloat(value):
-            points_achieved = points_achieved + float(value)
-        else:
-            x = False
-
-    print("\nNow enter the maximum possible scores of each assignment " +
-          "separated with enter:\n")
-    x = True
-    while x is True:
-        value = input("")
-        if isfloat(value):
-            points_total = points_total + float(value)
-        else:
-            x = False
-
-    try:
-        final_grade = points_achieved / points_total * 100
-    except ZeroDivisionError:
-        final_grade = 0
-
-    return_grade(final_grade)
-
-
-def add_assignment_categorized():
-    print("\nWhich category do you want to modify?")
-    for i in range(number_of_categories):
-        print("(" + str(i + 1) + ") " + name[i] + " - " + str(weight[i]) + "%")
-
-    print()
-
-    # Make sure what the user types is a valid number before continuing
-    i = True
-    while i is True:
-        value = input("")
-        if isint(value):
-            if int(value) >= 1 and int(value) <= number_of_categories:
-                category_to_change = int(value) - 1
-                i = False
-
-    assignment_points = grab_new_assignment_data()
-
-    # For every possible score out of the total, calculate the resulting total
-    # average in the class
-    for i in range(assignment_points + 1):
-        # Reset the total percentage every time we finish calculating
-        total = 0
-        for j in range(number_of_categories):
-            # When finding the weighted percents from all categories again, if
-            # the category we get to is the one we need to change, add those
-            # changes
-            if category_to_change is j:
-                weighted_category = float((points_achieved[j] + i) /
-                                          (points_total[j] + assignment_points)
-                                          * weight[j])
-            else:
-                try:
-                    weighted_category = float(points_achieved[j] /
-                                              points_total[j] * weight[j])
-                except ZeroDivisionError:
-                    weighted_category = 0
-            total = total + weighted_category
-        # Show the score out of the total and then show the percent in the
-        # class
-        print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
-
-    if assignment_points > 20:
-        print("\nWarning! Your screen may be filled too much to see all the " +
-              "possible scores! You may need to scroll back to see them all.")
-
-    print()
-    action_prompt()
-
-
-def add_assignment_uncategorized():
-    assignment_points = grab_new_assignment_data()
-
-    for i in range(assignment_points + 1):
-        total = (points_achieved + i) / (points_total +
-                                         assignment_points) * 100
-        print(str(i) + "/" + str(assignment_points) + ": " + str(total) + "%")
-
-    if assignment_points > 20:
-        print("\nWarning! Your screen may be filled too much to see all the " +
-              "possible scores! You may need to scroll back to see them all.")
-
-    print()
-    action_prompt()
-
-
-def launch():
-    print("=" * 40 + "\n")
-    print("     G R A D E   C A L C U L A T O R")
-    print("\n" + "=" * 40 + "\n")
-    global class_type
-    global final_grade
-    global points_achieved
-    global points_total
-    class_type = get_class_type()
-    if class_type == "0":
-        class_type, file_name = find_class_type()
-    if class_type == "1":
-        calculate_categorized()
-    elif class_type == "2":
-        calculate_uncategorized()
-    elif class_type == "3":
-        global number_of_categories
-        global name
-        global weight
-
-        number_of_categories, name, weight, points_achieved, points_total,\
-            final_grade = calculate_html_categorized(file_name)
-        return_grade(final_grade)
-    elif class_type == "4":
-        points_achieved, points_total,\
-            final_grade = calculate_html_uncategorized(file_name)
-        return_grade(final_grade)
-
-
-def action_prompt():
-    action_type = get_action_type()
-    if action_type == "1":
-        if class_type == "1" or class_type == "3":
-            add_assignment_categorized()
-        elif class_type == "2" or class_type == "4":
-            add_assignment_uncategorized()
-    elif action_type == "2":
-        quit()
-
-
-def return_grade(final_grade):
-    print("=" * 40 + "\n")
-    print("   Your calculated grade is: " + str(final_grade) + "%")
-    print("\n" + "=" * 40 + "\n")
-    action_prompt()
-
-
-launch()
+main()
