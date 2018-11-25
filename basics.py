@@ -37,7 +37,7 @@ def single_input_float(prompt):
 
 
 def single_input_int(prompt):
-    # Take an input and only accept it when it is a float.
+    # Take an input and only accept it when it is an int.
     # This prevents the user from entering non-numbers where numbers
     # are needed.
 
