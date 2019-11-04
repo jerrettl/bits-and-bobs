@@ -3,18 +3,35 @@
 
 from bs4 import BeautifulSoup
 from data_extract import Class
+try:
+    from tkinter import filedialog
+    from tkfilebrowser import askopenfilename
+except ImportError:
+    print("Graphical file selection will not be available.")
 
 
 def main(new):
-    # Prompt to import file and wait for a proper file name
-    while True:
-        file_name = input("What is the name of the file you would"
-                          + " like to import?\n")
-        try:
-            f = open(file_name, "r")
-            break
-        except FileNotFoundError:
-            continue
+    action = ""
+    while action not in ("0", "1"):
+        action = input("\nHow do you want to import?:"
+                           + "\n(0) Type File Name"
+                           + "\n(1) GUI File Selection\n\n")
+    action = int(action)
+
+    if (action == 0):
+        while True:
+            # Prompt to import file and wait for a proper file name
+            file_name = input("What is the name of the file you would"
+                              + " like to import?\n")
+            try:
+                f = open(file_name, "r")
+                break
+            except FileNotFoundError:
+                print(f"\n{file_name} not found.")
+                continue
+    else:
+        file_name = filedialog.askopenfilename(filetypes=[("HTML", "*.html")])
+        f = open(file_name, "r")
 
     soup = BeautifulSoup(f.read(), 'html.parser')
 

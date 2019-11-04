@@ -11,7 +11,10 @@ Once the information regarding the class has been entered, various arithmetic ca
 ## Requirements
 
 - Python 3.6+
-- Beautiful Soup (4)
+- Beautiful Soup (4) (For HTML parsing)
+- tkfilebrowser (for graphical file selection)
+- tk (for graphical file selection)
+- pypiwin32 (Windows only; for graphical file selection)
 
 
 ## class Class
